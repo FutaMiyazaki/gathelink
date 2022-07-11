@@ -1,17 +1,18 @@
 import { MantineProvider } from "@mantine/core";
-import type { AppProps } from "next/app";
-import "@/styles/globals.css";
+import type { CustomAppPage } from "next/app";
 
-const MyApp = ({ Component, pageProps }: AppProps) => {
+const App: CustomAppPage = ({ Component, pageProps }) => {
+  const getLayout =
+    Component.getLayout ||
+    ((page) => {
+      return page;
+    });
+
   return (
-    <MantineProvider
-      withGlobalStyles
-      withNormalizeCSS
-      emotionOptions={{ key: "mantine", prepend: false }}
-    >
-      <Component {...pageProps} />
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      {getLayout(<Component {...pageProps} />)}
     </MantineProvider>
   );
 };
 
-export default MyApp;
+export default App;
